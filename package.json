@@ -1,0 +1,39 @@
+{
+  "name": "lcbf2023",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "deploy": "gh-pages -d dist",
+    "dev": "vite",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "predeploy": "npm run build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "fuse.js": "^6.6.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "react-stacked": "^0.3.2",
+    "sort-on": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "csv-parse": "^5.4.0",
+    "eslint": "^8.46.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "gh-pages": "^5.0.0",
+    "simple-get": "^4.0.1",
+    "slugify": "^1.6.6",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9"
+  }
+}
