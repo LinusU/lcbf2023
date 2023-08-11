@@ -32,6 +32,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const [showHelp, setShowHelp] = useState(false)
   const [filterFavorites, setFilterFavorites] = useState(false)
   const savedForLater = useSavedForLater()
+
   const handleResetFilter = () => {
     setSortOrder('desc')
     setSortCriteria('rating')
@@ -173,7 +174,6 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
             <CheckBox checked={filterFavorites} onChange={() => setFilterFavorites(val => !val)} title='Only show favorites' />
           </div>
-
 
           <Input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder='Search...' style={{ marginTop: 10 }} />
         </div>
