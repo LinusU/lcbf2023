@@ -33,6 +33,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const [filterFavorites, setFilterFavorites] = useState(false)
   const savedForLater = useSavedForLater()
   const [filterDrunk, setFilterDrunk] = useState(false)
+  const [hideDrunk, setHideDrunk] = useState(false)
   const checkedInBeers = useCheckedIn()
   const [lastCall, setLastCall] = useState(false)
 
@@ -49,6 +50,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
     return beers.filter(beer => {
       if (filterFavorites && !savedForLater.has(beer.untappd ?? '')) return false
       if (filterDrunk && !checkedInBeers.has(beer.untappd ?? '')) return false
+      if (hideDrunk && checkedInBeers.has(beer.untappd ?? '')) return false
 
       const noSessionsSelected = sessionFilter.size == 0
 
@@ -72,7 +74,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
       return (noSessionsSelected || sessionMatch) && styleMatch
     })
-  }, [beers, checkedInBeers, filterDrunk, filterFavorites, lastCall, savedForLater, sessionFilter, styleFilter])
+  }, [beers, checkedInBeers, filterDrunk, filterFavorites, hideDrunk, lastCall, savedForLater, sessionFilter, styleFilter])
 
   const fuse = useMemo(() => {
     return new Fuse(filteredBeers, {
@@ -184,6 +186,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
             <CheckBox checked={filterFavorites} onChange={() => setFilterFavorites(val => !val)} title='Only show favorites' />
             <CheckBox checked={filterDrunk} onChange={() => setFilterDrunk(val => !val)} title='Only show drunk' />
+            <CheckBox checked={hideDrunk} onChange={() => setHideDrunk(val => !val)} title='Hide drunk' />
             <CheckBox checked={lastCall} onChange={() => setLastCall(val => !val)} title='Only show last call' />
           </div>
 
