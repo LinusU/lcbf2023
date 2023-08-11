@@ -17,11 +17,15 @@ const Input: React.FC<InputProps> = ({ onChange, value, style, placeholder }) =>
                 border: '0 solid',
                 boxShadow: 'rgba(0, 0, 0, 0.12) 0px 8px 24px',
                 flex: 1,
-                display: 'flex'
+                display: 'flex',
+                fontSize: 16
             }}
             value={value}
             onChange={onChange}
             placeholder={placeholder}
+            onFocus={(e) => {
+                e.target.select()
+            }}
         >
         </input>
     )

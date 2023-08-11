@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.3",
     "fuse.js": "^6.6.2",
     "react": "^18.2.0",
     "react-animated-popup": "^0.1.8",

@@ -130,11 +130,11 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
       <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif', minHeight: '100vh' }}>
         <HStack paddingHorizontal={20} paddingVertical={8} width='100%'>
-          <Button onClick={handleResetFilter} outlined>Clear filters</Button>
+          <Button compact onClick={handleResetFilter} outlined>Clear filters</Button>
 
           <div style={{ display: 'flex', flex: 1 }}></div>
 
-          <div onClick={() => setShowHelp(true)} style={{ padding: '22px 6px' }}>
+          <div onClick={() => setShowHelp(true)} style={{ padding: '6px' }}>
             <FaQuestionCircle color={theme.primary} size={22} />
           </div>
         </HStack>
