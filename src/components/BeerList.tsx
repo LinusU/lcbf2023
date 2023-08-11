@@ -139,7 +139,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
           </div>
         </HStack>
 
-        <div style={{ gap: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
           <div>
 
             <p><b>Sort</b></p>
@@ -159,6 +159,8 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
               </HStack>
             </CollapsableSection>
           </div>
+
+          <div style={{ height: 12 }} />
 
           <div>
             <p><b>Filter</b></p>
@@ -190,7 +192,21 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
             <CheckBox checked={lastCall} onChange={() => setLastCall(val => !val)} title='Only show last call' />
           </div>
 
-          <Input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder='Search...' style={{ marginTop: 10 }} />
+          <div style={{ height: 4 }} />
+
+          <div>
+            {searchTerm === '' ? (
+              <div style={{ height: 18 }} />
+            ) : (
+              <div>
+                <p style={{ fontSize: 12, paddingLeft: 12 }}><i>{sortedBeers.length} search results</i></p>
+
+                <div style={{ height: 4 }} />
+              </div>
+            )}
+
+            <Input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder='Search...' />
+          </div>
         </div>
 
         {sortedBeers.map(b => <Beer key={b.id} beer={b} />)}
