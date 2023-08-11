@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { FaUntappd, FaCheck } from 'react-icons/fa'
+import { BsPinMapFill } from 'react-icons/bs'
 
 import { Beer as BeerType } from '../data.ts'
 import { useCheckedIn, useSavedForLater } from '../lib/storage.ts'
@@ -9,6 +10,7 @@ import IndexIndicator from './IndexIndicator.tsx'
 import Stars from './Stars.tsx'
 import Tag from './Tag.tsx'
 import Button from './Button.tsx'
+import { theme } from '../lib/theme.ts'
 import { getLocation } from '../lib/location.ts'
 
 interface BeerProps {
@@ -131,18 +133,20 @@ const Beer: React.FC<BeerProps> = ({ beer }) => {
             </div>
             <Stars value={beer.rating} numberOfRatings={beer.ratingCount}></Stars>
 
+
+
             <div style={{
                 display: 'flex',
-                flexDirection: 'row'
+                flexDirection: 'row',
             }}>
                 <Button onClick={goToBeer} style={{ flex: 1, marginRight: 5 }} outlined>
                     <p style={{ marginRight: 8 }}>Untappd</p><FaUntappd size={20} />
                 </Button>
-                <Button onClick={toggleHasHad} outlined={beer.untappd == null ? true : !checkedIn.has(beer.untappd)} style={{ marginRight: 5 }}>
+                <Button animated onClick={toggleHasHad} outlined={beer.untappd == null ? true : !checkedIn.has(beer.untappd)} style={{ marginRight: 5 }}>
                     <FaCheck />
                 </Button>
 
-                <Button onClick={toggleSavedForLater} outlined={!isSaved}>
+                <Button animated onClick={toggleSavedForLater} outlined={!isSaved}>
                     {isSaved ? <AiFillHeart /> : <AiOutlineHeart />}
                 </Button>
             </div>
