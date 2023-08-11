@@ -3,9 +3,14 @@ import React from 'react'
 const Stars: React.FC<{ value: number | undefined, numberOfRatings?: number }> = ({ value, numberOfRatings }) => {
   if (value == null) {
     return (
-      <p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        color: '#999',
+        fontSize: 12
+      }}>
         No rating
-      </p>
+      </div>
     )
   }
 
