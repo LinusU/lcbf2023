@@ -1,14 +1,17 @@
 import React from 'react'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { BsPinMapFill } from 'react-icons/bs'
 import { FaUntappd, FaCheck } from 'react-icons/fa'
 
 import { Beer as BeerType } from '../data.ts'
+import { theme } from '../lib/theme.ts'
 import { useCheckedIn, useSavedForLater } from '../lib/storage.ts'
 
 import IndexIndicator from './IndexIndicator.tsx'
 import Stars from './Stars.tsx'
 import Tag from './Tag.tsx'
 import Button from './Button.tsx'
+import { getLocation } from '../lib/location.ts'
 
 interface BeerProps {
     beer: BeerType
@@ -94,6 +97,15 @@ const Beer: React.FC<BeerProps> = ({ beer }) => {
                     <p>
                         {beer.brewery}
                     </p>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        margin: '6px 0'
+                    }}>
+                        <BsPinMapFill color={theme.primary}></BsPinMapFill>
+                        <p style={{ marginLeft: 10 }}>{getLocation(beer.brewery)}</p>
+                    </div>
                     <p>
                         ABV: {beer.abv.toFixed(2)}%
                     </p>
