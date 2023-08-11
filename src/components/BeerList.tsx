@@ -194,7 +194,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
           <div style={{ height: 4 }} />
 
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {searchTerm === '' ? (
               <div style={{ height: 18 }} />
             ) : (
