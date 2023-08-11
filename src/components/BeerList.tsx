@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import sortOn from 'sort-on'
 import Fuse from 'fuse.js'
-import { HStack } from 'react-stacked'
+import Popup from 'react-animated-popup'
+import { HStack, VStack } from 'react-stacked'
 
 import { BeerStyle, Beer as BeerType } from '../data'
 import { useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
@@ -12,6 +13,8 @@ import CheckBox from './CheckBox'
 import Button from './Button'
 import CollapsableSection from './CollapsableSection'
 import Input from './Input'
+import { FaGithub, FaQuestionCircle } from 'react-icons/fa'
+import { theme } from '../lib/theme'
 
 export type SortCriteria = 'abv' | 'rating' | 'ratingCount' | 'nameLength' | 'noSpaceNameLength'
 interface BeerListProps {
@@ -26,6 +29,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const sessionFilter = useSessionFilter()
   const styleFilter = useStyleFilter()
   const [searchTerm, setSearchTerm] = useSearchTerm()
+  const [showHelp, setShowHelp] = useState(false)
 
   const handleResetFilter = () => {
     setSortOrder('desc')
@@ -99,9 +103,24 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
   return (
     <div>
+      <Popup visible={showHelp} onClose={() => setShowHelp(false)} style={{ fontFamily: 'sans-serif' }}>
+        <VStack gap={10}>
+          <p>This web application was created for London Craft Beer Festival 2023 and will help you find the beers and their respective rating</p>
+          <p>The bars on the beer cards indicate on what session they are available. The first bar corresponds to friday afternoon etc.</p>
+          <p>This application was created by <a href='https://github.com/LinusU'>Linus Unnebäck</a>, <a href='https://github.com/3DJakob'>Jakob Unnebäck</a>, <a href='https://github.com/rSkogeby'>Richard Skogeby</a> and Otto Gärdin</p>
+          <Button onClick={() => window.open('https://github.com/LinusU/lcbf2023', '_blank')}><p style={{ marginRight: 10 }}>View on Github</p> <FaGithub></FaGithub></Button>
+        </VStack>
+      </Popup>
+
       <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif' }}>
         <HStack paddingHorizontal={20} paddingVertical={8} width='100%'>
           <Button onClick={handleResetFilter} outlined>Clear filters</Button>
+
+          <div style={{ display: 'flex', flex: 1 }}></div>
+
+          <div onClick={() => setShowHelp(true)} style={{ padding: '22px 6px' }}>
+            <FaQuestionCircle color={theme.primary} size={22} />
+          </div>
         </HStack>
 
         <div style={{ gap: 12, padding: 20, display: 'flex', flexDirection: 'column' }}>

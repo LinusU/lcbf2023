@@ -14,6 +14,7 @@
   "dependencies": {
     "fuse.js": "^6.6.2",
     "react": "^18.2.0",
+    "react-animated-popup": "^0.1.8",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-stacked": "^0.3.2",
