@@ -128,7 +128,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
         </VStack>
       </Popup>
 
-      <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif' }}>
+      <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif', minHeight: '100vh' }}>
         <HStack paddingHorizontal={20} paddingVertical={8} width='100%'>
           <Button onClick={handleResetFilter} outlined>Clear filters</Button>
 
@@ -210,6 +210,17 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
         </div>
 
         {sortedBeers.map(b => <Beer key={b.id} beer={b} />)}
+
+        {sortedBeers.length === 0 && (
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#666'
+          }}>
+            No results :-/
+          </div>
+        )}
       </div >
     </div >
   )
