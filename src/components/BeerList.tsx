@@ -5,7 +5,7 @@ import Popup from 'react-animated-popup'
 import { HStack, VStack } from 'react-stacked'
 
 import { BeerStyle, Beer as BeerType } from '../data'
-import { useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
+import { useSavedForLater, useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
 
 import Beer from './Beer'
 import RadioButton from './RadioButton'
@@ -30,7 +30,8 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const styleFilter = useStyleFilter()
   const [searchTerm, setSearchTerm] = useSearchTerm()
   const [showHelp, setShowHelp] = useState(false)
-
+  const [filterFavorites, setFilterFavorites] = useState(false)
+  const savedForLater = useSavedForLater()
   const handleResetFilter = () => {
     setSortOrder('desc')
     setSortCriteria('rating')
@@ -42,6 +43,8 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const filteredBeers = useMemo(() => {
     // Filter beer
     return beers.filter(beer => {
+      if (filterFavorites && !savedForLater.has(beer.untappd ?? '')) return false
+
       const noSessionsSelected = sessionFilter.size == 0
 
       // If no sessions and no styles are selected, include all beers
@@ -58,7 +61,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
       return (noSessionsSelected || sessionMatch) && styleMatch
     })
-  }, [beers, sessionFilter, styleFilter])
+  }, [beers, filterFavorites, savedForLater, sessionFilter, styleFilter])
 
   const fuse = useMemo(() => {
     return new Fuse(filteredBeers, {
@@ -167,7 +170,10 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
                 ))
               }
             </CollapsableSection>
+
+            <CheckBox checked={filterFavorites} onChange={() => setFilterFavorites(val => !val)} title='Only show favorites' />
           </div>
+
 
           <Input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder='Search...' style={{ marginTop: 10 }} />
         </div>
