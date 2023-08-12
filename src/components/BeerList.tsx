@@ -40,6 +40,16 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const [lastCall, setLastCall] = useState(false)
   const [locationPopup, setLocationPopup] = useState<Location | null>(null)
 
+  const activeLocationFilter = useMemo(() => {
+    const vaults = locations.vaults.filter(location => locationFilter.has(location.name))
+    const quayside = locations.quayside.filter(location => locationFilter.has(location.name))
+
+    return {
+      vaults,
+      quayside
+    }
+  }, [locationFilter])
+
   const handleResetFilter = () => {
     setSortOrder('desc')
     setSortCriteria('rating')
@@ -200,8 +210,8 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
               }
             </CollapsableSection>
 
-            <CollapsableSection title='Location'>
-              <CollapsableSection title='Vaults (ground floor)'>
+            <CollapsableSection title={`Location ${locationFilter.size > 0 ? `(${activeLocationFilter.vaults.length + activeLocationFilter.quayside.length} of ${locations.vaults.length + locations.quayside.length})` : ''}`}>
+              <CollapsableSection title={`Vaults (${activeLocationFilter.vaults.length > 0 ? activeLocationFilter.vaults.length : 'ground floor'})`}>
                 {
                   locations.vaults.map(location => (
                     <CheckBox
@@ -214,7 +224,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
                 }
               </CollapsableSection>
 
-              <CollapsableSection title='Quayside (first floor)'>
+              <CollapsableSection title={`Quayside (${activeLocationFilter.quayside.length > 0 ? activeLocationFilter.quayside.length : 'first floor'})`}>
                 {
                   locations.quayside.map(location => (
                     <CheckBox
@@ -253,16 +263,18 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
         {sortedBeers.map(b => <Beer key={b.id} beer={b} onShowLocation={handleShowLocation} />)}
 
-        {sortedBeers.length === 0 && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#666'
-          }}>
-            No results :-/
-          </div>
-        )}
+        {
+          sortedBeers.length === 0 && (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: '#666'
+            }}>
+              No results :-/
+            </div>
+          )
+        }
       </div >
     </div >
   )
