@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import sortOn from 'sort-on'
 import Fuse from 'fuse.js'
-import Popup from 'react-animated-popup'
 import { HStack, VStack } from 'react-stacked'
 
 import { BeerStyle, Beer as BeerType } from '../data'
 import { useCheckedIn, useLocationFilter, useSavedForLater, useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
 
+import Popup from '../react-animated-popup'
 import Beer from './Beer'
 import RadioButton from './RadioButton'
 import CheckBox from './CheckBox'
@@ -15,7 +15,7 @@ import CollapsableSection from './CollapsableSection'
 import Input from './Input'
 import { FaGithub, FaQuestionCircle } from 'react-icons/fa'
 import { theme } from '../lib/theme'
-import { getBreweryLocation, locations } from '../lib/location'
+import { Location, getBreweryLocation, locations } from '../lib/location'
 
 export type SortCriteria = 'abv' | 'rating' | 'ratingCount' | 'nameLength' | 'noSpaceNameLength'
 interface BeerListProps {
@@ -38,6 +38,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const [hideDrunk, setHideDrunk] = useState(false)
   const checkedInBeers = useCheckedIn()
   const [lastCall, setLastCall] = useState(false)
+  const [locationPopup, setLocationPopup] = useState<Location | null>(null)
 
   const handleResetFilter = () => {
     setSortOrder('desc')
@@ -48,13 +49,17 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
     setSearchTerm('')
   }
 
+  const handleShowLocation = (location: Location) => {
+    setLocationPopup(location)
+  }
+
   const filteredBeers = useMemo(() => {
     // Filter beer
     return beers.filter(beer => {
       if (filterFavorites && !savedForLater.has(beer.untappd ?? '')) return false
       if (filterDrunk && !checkedInBeers.has(beer.untappd ?? '')) return false
       if (hideDrunk && checkedInBeers.has(beer.untappd ?? '')) return false
-      if (locationFilter.size > 0 && !locationFilter.has(getBreweryLocation(beer.brewery).name)) return false
+      if (locationFilter.size > 0 && !locationFilter.has(getBreweryLocation(beer.brewery)?.name ?? '')) return false
 
       const noSessionsSelected = sessionFilter.size == 0
 
@@ -130,6 +135,11 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
           <p>This application was created by <a href='https://github.com/LinusU'>Linus Unnebäck</a>, <a href='https://github.com/3DJakob'>Jakob Unnebäck</a>, <a href='https://github.com/rSkogeby'>Richard Skogeby</a> and Otto Gärdin</p>
           <Button onClick={() => window.open('https://github.com/LinusU/lcbf2023', '_blank')}><p style={{ marginRight: 10 }}>View on Github</p> <FaGithub></FaGithub></Button>
         </VStack>
+      </Popup>
+
+      <Popup visible={locationPopup != null} onClose={() => setLocationPopup(null)} style={{ padding: '12px' }}>
+        {locationPopup?.level === 'quayside' && <img src='https://locousercontent.com/w8mVKp2xw-LpPOmU9aih6ZfXRDnIqfxxl8Zj_taPgfbdrBzmQ6BTMULRZ5o34fbx/original.png' />}
+        {locationPopup?.level === 'vaults' && <img src='https://locousercontent.com/TdqpfX6bM8uctzusYB97rkNxgRlTp4mLxVgEt9acJFt1wbpiCeOCYk59tP1xCwhO/original.png' />}
       </Popup>
 
       <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif', minHeight: '100vh' }}>
@@ -241,7 +251,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
           </div>
         </div>
 
-        {sortedBeers.map(b => <Beer key={b.id} beer={b} />)}
+        {sortedBeers.map(b => <Beer key={b.id} beer={b} onShowLocation={handleShowLocation} />)}
 
         {sortedBeers.length === 0 && (
           <div style={{

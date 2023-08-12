@@ -2,42 +2,43 @@ export type Level = 'vaults' | 'quayside'
 
 export interface Location {
   name: string
+  level: Level
 }
 
 export const locations: Record<Level, Location[]> = {
   vaults: [
-    { name: 'NV1' },
-    { name: 'NV2' },
-    { name: 'NV3' },
-    { name: 'NV4' },
-    { name: 'NV5' },
-    { name: 'NV6' },
-    { name: 'SV1' },
-    { name: 'SV2' },
-    { name: 'SV5' },
-    { name: 'SV6' },
-    { name: 'SV7' },
-    { name: 'Porter\'s Walk North' },
-    { name: 'North Bandstand' },
-    { name: 'Porter\'s Walk South' },
-    { name: 'Central Staircase' },
-    { name: 'North Vault Courtyard' },
-    { name: 'North Fountain' },
-    { name: 'South Fountain' },
-    { name: 'Hogshead Passage' },
+    { name: 'NV1', level: 'vaults' },
+    { name: 'NV2', level: 'vaults' },
+    { name: 'NV3', level: 'vaults' },
+    { name: 'NV4', level: 'vaults' },
+    { name: 'NV5', level: 'vaults' },
+    { name: 'NV6', level: 'vaults' },
+    { name: 'SV1', level: 'vaults' },
+    { name: 'SV2', level: 'vaults' },
+    { name: 'SV5', level: 'vaults' },
+    { name: 'SV6', level: 'vaults' },
+    { name: 'SV7', level: 'vaults' },
+    { name: 'Porter\'s Walk North', level: 'vaults' },
+    { name: 'North Bandstand', level: 'vaults' },
+    { name: 'Porter\'s Walk South', level: 'vaults' },
+    { name: 'Central Staircase', level: 'vaults' },
+    { name: 'North Vault Courtyard', level: 'vaults' },
+    { name: 'North Fountain', level: 'vaults' },
+    { name: 'South Fountain', level: 'vaults' },
+    { name: 'Hogshead Passage', level: 'vaults' },
   ],
   quayside: [
-    { name: 'Little Gallery' },
-    { name: 'Quayside Walkway' },
-    { name: 'West Mall Bridge' },
-    { name: 'QS1' },
-    { name: 'QS3' },
-    { name: 'QS7' },
-    { name: 'Food Court' },
+    { name: 'Little Gallery', level: 'quayside' },
+    { name: 'Quayside Walkway', level: 'quayside' },
+    { name: 'West Mall Bridge', level: 'quayside' },
+    { name: 'QS1', level: 'quayside' },
+    { name: 'QS3', level: 'quayside' },
+    { name: 'QS7', level: 'quayside' },
+    { name: 'Food Court', level: 'quayside' },
   ],
 }
 
-export function getBreweryLocation(breweryName: string): Location {
+export function getBreweryLocation(breweryName: string): Location | null {
   switch (breweryName) {
     // Vaults level
 
@@ -271,21 +272,11 @@ export function getBreweryLocation(breweryName: string): Location {
       return locations.quayside.find(location => location.name === 'Food Court')!
 
     case 'Only With Love':
-      return { name: 'Who knows?' }
-
     case 'Vibrant Forest Brewery':
-      return { name: 'Jag vet inte?' }
-
     case 'London Brewing Company':
-      return { name: 'Vet ej tyvärr' }
-
     case 'BRULO':
-      return { name: 'Oklart' }
-
     case 'Neckstamper':
-      return { name: 'Ehhhhh??' }
-
     default:
-      return { name: '???' }
+      return null
   }
 }

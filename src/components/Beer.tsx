@@ -11,16 +11,22 @@ import IndexIndicator from './IndexIndicator.tsx'
 import Stars from './Stars.tsx'
 import Tag from './Tag.tsx'
 import Button from './Button.tsx'
-import { getBreweryLocation } from '../lib/location.ts'
+import { Location, getBreweryLocation } from '../lib/location.ts'
 
 interface BeerProps {
     beer: BeerType
+    onShowLocation: (location: Location) => void
 }
 
-const Beer: React.FC<BeerProps> = ({ beer }) => {
+const Beer: React.FC<BeerProps> = ({ beer, onShowLocation }) => {
     const sessions = [beer.fri_am, beer.fri_pm, beer.sat_am, beer.sat_pm]
     const checkedIn = useCheckedIn()
     const savedForLater = useSavedForLater()
+
+    const handleShowLocation = () => {
+        const location = getBreweryLocation(beer.brewery)
+        if (location != null) onShowLocation(location)
+    }
 
     const goToBeer = () => {
         if (beer.untappd == null || beer.untappdAppUrl == null) {
@@ -97,14 +103,17 @@ const Beer: React.FC<BeerProps> = ({ beer }) => {
                     <p>
                         {beer.brewery}
                     </p>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        margin: '6px 0'
-                    }}>
+                    <div
+                        onClick={handleShowLocation}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            margin: '6px 0'
+                        }}
+                    >
                         <BsPinMapFill color={theme.primary}></BsPinMapFill>
-                        <p style={{ marginLeft: 10 }}>{getBreweryLocation(beer.brewery).name}</p>
+                        <p style={{ marginLeft: 10 }}>{getBreweryLocation(beer.brewery)?.name ?? '???'}</p>
                     </div>
                     <p>
                         ABV: {beer.abv.toFixed(2)}%
