@@ -89,7 +89,7 @@ export const useCheckedIn = createGlobalPersistedSet<string>('checkedIn')
 export const useSavedForLater = createGlobalPersistedSet<string>('savedForLater')
 export const useSessionFilter = createGlobalPersistedSet<'friAm' | 'friPm' | 'satAm' | 'satPm'>('sessionFilter')
 export const useStyleFilter = createGlobalPersistedSet<BeerStyle>('styleFilter')
-export const useLocationFilter = createGlobalPersistedSet<string>('locationFilter')
+export const useLocationFilter = createGlobalPersistedSet<Location['name']>('locationFilter')
 
 export const useSearchTerm = createGlobalPersistedVariable<string>('', 'searchTerm')
 export const useSortCriteria = createGlobalPersistedVariable<SortCriteria>('rating', 'sortCriteria')
