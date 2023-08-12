@@ -1,5 +1,44 @@
-export function getLocation(brewery: string): string {
-  switch (brewery) {
+export type Level = 'vaults' | 'quayside'
+
+export interface Location {
+  name: string
+}
+
+export const locations: Record<Level, Location[]> = {
+  vaults: [
+    { name: 'NV1' },
+    { name: 'NV2' },
+    { name: 'NV3' },
+    { name: 'NV4' },
+    { name: 'NV5' },
+    { name: 'NV6' },
+    { name: 'SV1' },
+    { name: 'SV2' },
+    { name: 'SV5' },
+    { name: 'SV6' },
+    { name: 'SV7' },
+    { name: 'Porter\'s Walk North' },
+    { name: 'North Bandstand' },
+    { name: 'Porter\'s Walk South' },
+    { name: 'Central Staircase' },
+    { name: 'North Vault Courtyard' },
+    { name: 'North Fountain' },
+    { name: 'South Fountain' },
+    { name: 'Hogshead Passage' },
+  ],
+  quayside: [
+    { name: 'Little Gallery' },
+    { name: 'Quayside Walkway' },
+    { name: 'West Mall Bridge' },
+    { name: 'QS1' },
+    { name: 'QS3' },
+    { name: 'QS7' },
+    { name: 'Food Court' },
+  ],
+}
+
+export function getBreweryLocation(breweryName: string): Location {
+  switch (breweryName) {
     // Vaults level
 
     case 'Two Flints':
@@ -15,20 +54,20 @@ export function getLocation(brewery: string): string {
     case 'Northern Monk':
     case 'Burning Sky':
     case 'Track Brewery':
-      return 'NV1'
+      return locations.vaults.find(location => location.name === 'NV1')!
 
     case 'Budweiser Budvar':
-      return 'NV2'
+      return locations.vaults.find(location => location.name === 'NV2')!
 
     case 'Chouffe Brewery':
-      return 'NV3'
+      return locations.vaults.find(location => location.name === 'NV3')!
 
     case 'Brew By Numbers':
     case 'Kyro Distillery':
-      return 'NV4'
+      return locations.vaults.find(location => location.name === 'NV4')!
 
     case 'RedLeg':
-      return 'NV5'
+      return locations.vaults.find(location => location.name === 'NV5')!
 
     case 'Brixton Brewery':
     case 'The Gipsy Hill Brewing':
@@ -36,25 +75,25 @@ export function getLocation(brewery: string): string {
     case 'Timothy Taylor\'s':
     case 'Haacht Brewery':
     case 'Compass Box':
-      return 'NV6'
+      return locations.vaults.find(location => location.name === 'NV6')!
 
     case 'O\'Hara\'s Brewing':
     case 'ABK':
     case 'Dartsee':
-      return 'SV1'
+      return locations.vaults.find(location => location.name === 'SV1')!
 
     case 'Forest Road':
-      return 'SV2'
+      return locations.vaults.find(location => location.name === 'SV2')!
 
     case 'Favela Cerveja':
-      return 'SV5'
+      return locations.vaults.find(location => location.name === 'SV5')!
 
     case 'SALT Beer Factory':
-      return 'SV6'
+      return locations.vaults.find(location => location.name === 'SV6')!
 
     case 'Amundsen Brewery':
     case 'Amundsen Pastry World':
-      return 'SV7'
+      return locations.vaults.find(location => location.name === 'SV7')!
 
     case 'Pretty Decent Beer Co':
     case 'Hackney Church Brewery':
@@ -72,7 +111,7 @@ export function getLocation(brewery: string): string {
     case '360 Degree Brewing':
     case 'The Three Legs Brewing Co.':
     case 'The Three Legs Brewing Co. ':
-      return 'Porter\'s Walk North'
+      return locations.vaults.find(location => location.name === 'Porter\'s Walk North')!
 
     case 'The Goodness Brew Co':
     case 'Mikkeller':
@@ -86,20 +125,20 @@ export function getLocation(brewery: string): string {
     case 'Frontaal Brewery':
     case 'Galway Bay':
     case 'Basqueland Brewing':
-      return 'North Bandstand'
+      return locations.vaults.find(location => location.name === 'North Bandstand')!
 
     case 'Yonder Brewing':
     case 'The Five Points Brewing Company':
     case 'Pillars Brewery':
     case 'The Newt in Somerset':
     case '40FT':
-      return 'Porter\'s Walk South'
+      return locations.vaults.find(location => location.name === 'Porter\'s Walk South')!
 
     case 'Real Handful':
     case 'Jack Links':
     case 'Botivo':
     case 'Serious Pig':
-      return 'Central Staircase'
+      return locations.vaults.find(location => location.name === 'Central Staircase')!
 
     case 'Verdant Brewing Co.':
     case 'Phantom Brewing Co.':
@@ -111,7 +150,7 @@ export function getLocation(brewery: string): string {
     case 'Anspach & Hobday':
     case 'Arbor Ales':
     case 'Attic Brew Co':
-      return 'North Vault Courtyard'
+      return locations.vaults.find(location => location.name === 'North Vault Courtyard')!
 
     case 'Hackney Brewery':
     case 'Elusive Brewing':
@@ -123,19 +162,19 @@ export function getLocation(brewery: string): string {
     case 'Hepworth':
     case 'On Cloud Wine':
     case 'Go Mate Drinks':
-      return 'North Fountain'
+      return locations.vaults.find(location => location.name === 'North Fountain')!
 
     case 'Turning Point Brew Co':
     case 'Signature Brew':
     case 'Lost and Grounded':
     case 'Big Smoke Brew Co':
-      return 'South Fountain'
+      return locations.vaults.find(location => location.name === 'South Fountain')!
 
     case 'Craft Beerings':
     case 'Battle of the breweries':
     case 'Kotinos Foods':
     case 'Nonna Tonda':
-      return 'Hogshead Passage'
+      return locations.vaults.find(location => location.name === 'Hogshead Passage')!
 
     // Quayside level
 
@@ -158,15 +197,15 @@ export function getLocation(brewery: string): string {
     case 'Talking Tides':
     case 'Talking Tides Brew Co':
     case 'Club Soda (no/lo)':
-      return 'Little Gallery'
+      return locations.quayside.find(location => location.name === 'Little Gallery')!
 
     case 'Vintro Bar':
     case 'CHICK\'IN\'SOURS':
     case 'Meltdown Burgers':
-      return 'Quayside Walkway'
+      return locations.quayside.find(location => location.name === 'Quayside Walkway')!
 
     case 'Stone & Wood':
-      return 'Quayside, West Mall Bridge'
+      return locations.quayside.find(location => location.name === 'West Mall Bridge')!
 
     case 'Sullivan\'s Brewing Company':
     case 'Brick Brewery':
@@ -193,7 +232,7 @@ export function getLocation(brewery: string): string {
     case 'The Sexton Whiskey':
     case 'Dalston\'s Soda Company':
     case 'Ploom':
-      return 'Quayside, QS1'
+      return locations.quayside.find(location => location.name === 'QS1')!
 
     case 'Mondo Brewery':
     case 'Mondo Brewing Company':
@@ -204,7 +243,7 @@ export function getLocation(brewery: string): string {
     case 'Xylo Brewing Ltd':
     case 'Hammerton':
     case 'Hammerton Brewery  ': // yes, with two spaces
-      return 'Quayside, QS3'
+      return locations.quayside.find(location => location.name === 'QS3')!
 
     case 'Affinity Brewery (LBA BAR)':
     case 'American Brewers Association (USA)':
@@ -226,26 +265,27 @@ export function getLocation(brewery: string): string {
     case 'Timmermans':
     case 'Wimbledon Brewery (LBA BAR)':
     case 'Zerodegrees (LBA BAR)':
-      return 'Quayside, QS7'
+      return locations.quayside.find(location => location.name === 'QS7')!
 
     case 'Braybrooke Beer Co':
-      return 'Quayside, Food Court'
+      return locations.quayside.find(location => location.name === 'Food Court')!
 
     case 'Only With Love':
-      return 'Who knows?'
+      return { name: 'Who knows?' }
 
     case 'Vibrant Forest Brewery':
-      return 'Jag vet inte?'
+      return { name: 'Jag vet inte?' }
 
     case 'London Brewing Company':
-      return 'Vet ej tyvärr'
+      return { name: 'Vet ej tyvärr' }
 
     case 'BRULO':
-      return 'Oklart'
+      return { name: 'Oklart' }
 
     case 'Neckstamper':
-      return 'Ehhhhh??'
-  }
+      return { name: 'Ehhhhh??' }
 
-  return '???'
+    default:
+      return { name: '???' }
+  }
 }
