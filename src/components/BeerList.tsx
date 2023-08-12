@@ -5,7 +5,7 @@ import Popup from 'react-animated-popup'
 import { HStack, VStack } from 'react-stacked'
 
 import { BeerStyle, Beer as BeerType } from '../data'
-import { useCheckedIn, useSavedForLater, useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
+import { useCheckedIn, useLocationFilter, useSavedForLater, useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
 
 import Beer from './Beer'
 import RadioButton from './RadioButton'
@@ -15,6 +15,7 @@ import CollapsableSection from './CollapsableSection'
 import Input from './Input'
 import { FaGithub, FaQuestionCircle } from 'react-icons/fa'
 import { theme } from '../lib/theme'
+import { getBreweryLocation, locations } from '../lib/location'
 
 export type SortCriteria = 'abv' | 'rating' | 'ratingCount' | 'nameLength' | 'noSpaceNameLength'
 interface BeerListProps {
@@ -27,6 +28,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
   const [sortOrder, setSortOrder] = useSortOrder()
   const [sortCriteria, setSortCriteria] = useSortCriteria()
   const sessionFilter = useSessionFilter()
+  const locationFilter = useLocationFilter()
   const styleFilter = useStyleFilter()
   const [searchTerm, setSearchTerm] = useSearchTerm()
   const [showHelp, setShowHelp] = useState(false)
@@ -42,6 +44,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
     setSortCriteria('rating')
     sessionFilter.clear()
     styleFilter.clear()
+    locationFilter.clear()
     setSearchTerm('')
   }
 
@@ -51,6 +54,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
       if (filterFavorites && !savedForLater.has(beer.untappd ?? '')) return false
       if (filterDrunk && !checkedInBeers.has(beer.untappd ?? '')) return false
       if (hideDrunk && checkedInBeers.has(beer.untappd ?? '')) return false
+      if (locationFilter.size > 0 && !locationFilter.has(getBreweryLocation(beer.brewery).name)) return false
 
       const noSessionsSelected = sessionFilter.size == 0
 
@@ -74,7 +78,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
 
       return (noSessionsSelected || sessionMatch) && styleMatch
     })
-  }, [beers, checkedInBeers, filterDrunk, filterFavorites, hideDrunk, lastCall, savedForLater, sessionFilter, styleFilter])
+  }, [beers, checkedInBeers, filterDrunk, filterFavorites, hideDrunk, lastCall, locationFilter, savedForLater, sessionFilter, styleFilter])
 
   const fuse = useMemo(() => {
     return new Fuse(filteredBeers, {
@@ -184,6 +188,34 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
                   />
                 ))
               }
+            </CollapsableSection>
+
+            <CollapsableSection title='Location'>
+              <CollapsableSection title='Vaults (ground floor)'>
+                {
+                  locations.vaults.map(location => (
+                    <CheckBox
+                      key={location.name}
+                      checked={locationFilter.has(location.name)}
+                      onChange={() => locationFilter.toggle(location.name)}
+                      title={location.name.charAt(0).toUpperCase() + location.name.slice(1)}
+                    />
+                  ))
+                }
+              </CollapsableSection>
+
+              <CollapsableSection title='Quayside (first floor)'>
+                {
+                  locations.quayside.map(location => (
+                    <CheckBox
+                      key={location.name}
+                      checked={locationFilter.has(location.name)}
+                      onChange={() => locationFilter.toggle(location.name)}
+                      title={location.name.charAt(0).toUpperCase() + location.name.slice(1)}
+                    />
+                  ))
+                }
+              </CollapsableSection>
             </CollapsableSection>
 
             <CheckBox checked={filterFavorites} onChange={() => setFilterFavorites(val => !val)} title={'Only show favorites (' + savedForLater.size + ')'} />
