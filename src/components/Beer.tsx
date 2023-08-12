@@ -1,19 +1,17 @@
 import React from 'react'
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsPinMapFill } from 'react-icons/bs'
-import { FaUntappd, FaCheck } from 'react-icons/fa'
-import { BsPinMapFill } from 'react-icons/bs'
+import { FaCheck, FaUntappd } from 'react-icons/fa'
 
 import { Beer as BeerType } from '../data.ts'
-import { theme } from '../lib/theme.ts'
 import { useCheckedIn, useSavedForLater } from '../lib/storage.ts'
+import { theme } from '../lib/theme.ts'
 
+import { getLocation } from '../lib/location.ts'
+import Button from './Button.tsx'
 import IndexIndicator from './IndexIndicator.tsx'
 import Stars from './Stars.tsx'
 import Tag from './Tag.tsx'
-import Button from './Button.tsx'
-import { theme } from '../lib/theme.ts'
-import { getLocation } from '../lib/location.ts'
 
 interface BeerProps {
     beer: BeerType
