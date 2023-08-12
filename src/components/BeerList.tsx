@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import sortOn from 'sort-on'
 import Fuse from 'fuse.js'
-import { HStack, VStack } from 'react-stacked'
+import { HStack, Text, VStack } from 'react-stacked'
 
 import { BeerStyle, Beer as BeerType } from '../data'
 import { useCheckedIn, useLocationFilter, useSavedForLater, useSearchTerm, useSessionFilter, useSortCriteria, useSortOrder, useStyleFilter } from '../lib/storage'
@@ -148,8 +148,15 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
       </Popup>
 
       <Popup visible={locationPopup != null} onClose={() => setLocationPopup(null)} style={{ padding: '12px' }}>
-        {locationPopup?.level === 'quayside' && <img src='https://locousercontent.com/w8mVKp2xw-LpPOmU9aih6ZfXRDnIqfxxl8Zj_taPgfbdrBzmQ6BTMULRZ5o34fbx/original.png' />}
-        {locationPopup?.level === 'vaults' && <img src='https://locousercontent.com/TdqpfX6bM8uctzusYB97rkNxgRlTp4mLxVgEt9acJFt1wbpiCeOCYk59tP1xCwhO/original.png' />}
+        {locationPopup?.level === 'quayside' && <>
+          <Text align='center' padding={4}>Quayside (first floor)</Text>
+          <img src='https://locousercontent.com/4LE6AgLJmdJJPZs1oTYOq5G1_kYbkse_9A4Ip3C2s-SG-Xv90l8MFinTbU4HFjk8/original.png' />
+        </>}
+
+        {locationPopup?.level === 'vaults' && <>
+          <Text align='center' padding={4}>Vaults (ground floor)</Text>
+          <img src='https://locousercontent.com/kH3M-T1707Dt97Z62rLdWcTTovVS7lLJU0mntb3AEu8hejlY6wV1ioI9nZhCbZ_Y/original.png' />
+        </>}
       </Popup>
 
       <div style={{ backgroundColor: '#efefef', fontFamily: 'sans-serif', minHeight: '100vh' }}>
