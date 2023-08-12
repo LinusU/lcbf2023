@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react'
 
 import { BeerStyle } from '../data'
 import { SortCriteria } from '../components/BeerList'
+import { Location } from './location'
 
 type GlobalPersistedVariable<T> = () => [T, (value: T) => void]
 
-export function createGlobalPersistedVariable<T>(initialValue: T, keyName: string): GlobalPersistedVariable<T> {
+export function createGlobalPersistedVariable<T> (initialValue: T, keyName: string): GlobalPersistedVariable<T> {
   let currentValue: T = initialValue
   const listeners = new Set<(value: T) => void>()
 
@@ -17,13 +18,13 @@ export function createGlobalPersistedVariable<T>(initialValue: T, keyName: strin
     currentValue = JSON.parse(raw)
   }
 
-  function setValue(value: T): void {
+  function setValue (value: T): void {
     localStorage.setItem(keyName, JSON.stringify(value))
     currentValue = value
     listeners.forEach(fn => fn(value))
   }
 
-  return function hook() {
+  return function hook () {
     const [current, setCurrent] = useState(currentValue)
 
     useEffect(() => {
@@ -47,33 +48,33 @@ type GlobalPersistedSet<T> = () => {
   toggle: (value: T) => void,
 }
 
-function createGlobalPersistedSet<T>(keyName: string): GlobalPersistedSet<T> {
+function createGlobalPersistedSet<T> (keyName: string): GlobalPersistedSet<T> {
   const upstream = createGlobalPersistedVariable<T[]>([], keyName)
 
-  return function hook() {
+  return function hook () {
     const [array, setArray] = upstream()
 
     return {
-      add(value) {
+      add (value) {
         if (!array.includes(value)) {
           setArray([...array, value])
         }
       },
-      clear() {
+      clear () {
         setArray([])
       },
-      delete(value) {
+      delete (value) {
         if (array.includes(value)) {
           setArray(array.filter(v => v !== value))
         }
       },
-      has(value) {
+      has (value) {
         return array.includes(value)
       },
-      get size() {
+      get size () {
         return array.length
       },
-      toggle(value) {
+      toggle (value) {
         if (array.includes(value)) {
           setArray(array.filter(v => v !== value))
         } else {
@@ -88,6 +89,7 @@ export const useCheckedIn = createGlobalPersistedSet<string>('checkedIn')
 export const useSavedForLater = createGlobalPersistedSet<string>('savedForLater')
 export const useSessionFilter = createGlobalPersistedSet<'friAm' | 'friPm' | 'satAm' | 'satPm'>('sessionFilter')
 export const useStyleFilter = createGlobalPersistedSet<BeerStyle>('styleFilter')
+export const useLocationFilter = createGlobalPersistedSet<string>('locationFilter')
 
 export const useSearchTerm = createGlobalPersistedVariable<string>('', 'searchTerm')
 export const useSortCriteria = createGlobalPersistedVariable<SortCriteria>('rating', 'sortCriteria')
