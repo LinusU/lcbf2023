@@ -239,7 +239,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers }) => {
             </CollapsableSection>
 
             <CheckBox checked={filterFavorites} onChange={() => setFilterFavorites(val => !val)} title={'Only show favorites (' + savedForLater.size + ')'} />
-            <CheckBox checked={filterDrunk} onChange={() => setFilterDrunk(val => !val)} title={'Only show drunk (' + checkedInBeers.size + ')'} />
+            <CheckBox checked={filterDrunk} onChange={() => setFilterDrunk(val => !val)} title={'Only show checked in (' + checkedInBeers.size + ')'} />
             <CheckBox checked={hideDrunk} onChange={() => setHideDrunk(val => !val)} title='Hide checked in' />
             <CheckBox checked={lastCall} onChange={() => setLastCall(val => !val)} title='Only show last call' />
           </div>
