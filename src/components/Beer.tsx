@@ -11,7 +11,7 @@ import IndexIndicator from './IndexIndicator.tsx'
 import Stars from './Stars.tsx'
 import Tag from './Tag.tsx'
 import Button from './Button.tsx'
-import { getLocation } from '../lib/location.ts'
+import { getBreweryLocation } from '../lib/location.ts'
 
 interface BeerProps {
     beer: BeerType
@@ -104,7 +104,7 @@ const Beer: React.FC<BeerProps> = ({ beer }) => {
                         margin: '6px 0'
                     }}>
                         <BsPinMapFill color={theme.primary}></BsPinMapFill>
-                        <p style={{ marginLeft: 10 }}>{getLocation(beer.brewery)}</p>
+                        <p style={{ marginLeft: 10 }}>{getBreweryLocation(beer.brewery).name}</p>
                     </div>
                     <p>
                         ABV: {beer.abv.toFixed(2)}%
